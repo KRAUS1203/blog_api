@@ -2,7 +2,7 @@ class Post
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  before_create :set_arrays
+  before_save :set_arrays
 
   field :text, type: String
   field :like_count, type: Integer, default: 0

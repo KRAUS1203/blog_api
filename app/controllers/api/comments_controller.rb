@@ -3,23 +3,26 @@ class Api::CommentsController < ApplicationController
 	before_action :authenticate_user
 
 	def index
-		commentable = Post.find(params[:id])
-		# comments = commentable.comments
-		comments = Comment.where(commentable: commentable)
-		render json: comments
+		comments = Comment.where(post_id: params[:id]).order(_id: -1)
+		if comments.count > 0
+			render json: comments
+		else
+			render json:{error: 'no comments found'}, status: 404
+		end
 		# render json: Comment.all
 	end
+
 	def create
-		if params[:comment_id]
-			commentable = Comment.find(params[:comment_id])
+		post = Post.find_by(_id: params[:id])
+		if post
+			comment = post.comments.new(comment_params)
+			if comment.save
+				render json: comment, status: 201
+			else
+				render json: {error: comment.errors}, status: 400
+			end
 		else
-			commentable = Post.find(params[:post_id])
-		end
-		comment = Comment.create(commentable: commentable, text: params[:text], user_id: current_user.id)
-		if comment.save
-			render json: comment
-		else
-			render json: {errors: comment.errors}, status: 400
+			render json: {error: 'no post found'}, status: 404
 		end
 	end
 

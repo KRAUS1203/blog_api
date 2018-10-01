@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     get '/user' => 'users#logged_in_user'
 
     post 'posts/:id/like' => 'posts#create_like'
-    get 'posts/list' => 'posts#list'
+    post 'posts/:id/view' => 'posts#create_view'
     resources :users, :posts
   end
 
