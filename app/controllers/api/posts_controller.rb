@@ -30,11 +30,6 @@ class Api::PostsController < ApplicationController
         end
     end
 
-    def list
-        posts = Post.where(user_id: current_user.id).sort(_id: -1).limit(10)
-        render json: posts, status: 200
-    end
-
     def create_like
         post = Post.find_by(_id: params[:id], likes: {'$ne': current_user.id})
         if post
@@ -49,11 +44,13 @@ class Api::PostsController < ApplicationController
     end
 
     def create_view
-        post = Post.find(params[:id])
+        post = Post.find_by(_id: params[:id], views: {'$ne': current_user.id})
         if post
-            Post.collection.update_one({_id: params[:id], views: {'$ne': current_user.id}},
-                                       {'$set': {'$inc': {view_count: 1}, '$push': {views: current_user.id}}})
-            render json: 'success', status: 202
+            view_count = post.view_count + 1
+            views = post.views
+            views << current_user.id
+            post.update_attributes(views: views, view_count: view_count)
+            render json: post, status: 202
         else
             render json: {error: 'no post found'}, status: 404
         end
