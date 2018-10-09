@@ -14,6 +14,20 @@ gem 'bcrypt', '~>3.1.12'
 gem 'active_model_serializers'
 gem 'delayed_job_mongoid'
 gem 'rack-cors', :require => 'rack/cors'
+gem 'turbolinks'
+gem 'jquery-ui-rails'
+gem 'jquery-rails'
+gem 'twitter-bootstrap-rails'
+gem 'rails-ujs'
+gem 'duktape'
+gem 'resque', require: 'resque/server'
+
+gem 'resque-retry'
+
+gem 'resque-web' , require: 'resque_web'
+
+gem 'resque-scheduler'
+gem 'wdm', '>= 0.1.0' if Gem.win_platform?
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password

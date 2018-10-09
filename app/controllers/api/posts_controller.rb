@@ -4,7 +4,7 @@ class Api::PostsController < ApplicationController
 
     def index
         # after algorithm
-        posts = Post.where(user_id: current_user.id).limit(10)
+        posts = Post.where().limit(10)
         render json: posts
     end
 

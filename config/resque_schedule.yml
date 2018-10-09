@@ -1,0 +1,4 @@
+post_score:
+  cron: "1 */1 * * * "
+  class: PostScorer
+  description: gives score to all the posts
